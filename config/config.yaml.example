@@ -1,0 +1,24 @@
+ai:
+  base_url: "https://ark.cn-beijing.volces.com/api/v3"
+  api_key: "your-api-key-here"
+  model: "doubao-pro-4k"
+  temperature: 0.7
+  max_tokens: 400
+
+shop:
+  name: "优品生活馆"
+  owner: "小店主"
+  tone: "亲切、热情、像朋友一样，不要太官方"
+  return_policy: "7天无理由退换，包邮费，质量问题包退包换"
+  faq:
+    - "发货时间：当天16:00前下单当天发"
+    - "卫衣尺码：M适合155-160cm，L适合160-170cm"
+    - "面料：100%纯棉"
+  forbidden_words: ["不知道", "自己看详情页"]
+
+safety:
+  auto_send_positive_review: true
+  auto_send_negative_review: false
+  auto_send_consultation: true
+  manual_review_keywords: ["退款", "投诉", "假货", "12315", "起诉", "赔偿"]
+  negative_rating_threshold: 3
