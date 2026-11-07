@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><title>商家AI助手</title>
+<style>
+body{font-family:-apple-system,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;color:#222}
+h1{font-size:24px}.card{background:#f7f7f8;border-radius:12px;padding:20px;margin:16px 0}
+input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:14px}
+button{background:#333;color:#fff;border:0;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:14px}
+#out{white-space:pre-wrap;background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;margin-top:12px;display:none}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;margin-right:6px}
+.low{background:#d4edda;color:#155724}.medium{background:#fff3cd;color:#856404}.high{background:#f8d7da;color:#721c24}
+</style></head><body>
+<h1>🤖 商家AI助手 · 控制台</h1>
+<div class="card"><h3>模拟买家消息</h3>
+<select id="type"><option value="consultation">咨询</option><option value="review">评价</option></select>
+<textarea id="content" rows="3">这个衣服 M 码多大？160cm 能穿吗？</textarea>
+<input id="rating" type="number" min="1" max="5" value="5"/>
+<input id="item" value="纯棉宽松卫衣"/>
+<button onclick="send()">发送给AI</button><div id="out"></div></div>
+<script>
+async function send(){
+  const body={platform:'demo',type:document.getElementById('type').value,
+    user_id:'u'+Date.now(),user_name:'测试买家',
+    content:document.getElementById('content').value,
+    rating:parseInt(document.getElementById('rating').value),
+    order_info:{item_title:document.getElementById('item').value,order_amount:99}};
+  const r=await fetch('/webhook/message',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json();const el=document.getElementById('out');el.style.display='block';
+  el.innerHTML=`<b>AI回复：</b><br>${d.reply.reply_text}<br><br>
+    <span class="tag ${d.reply.risk_level}">风险:${d.reply.risk_level}</span>
+    <span class="tag">动作:${d.action}</span><br><br><i>${d.message}</i>`;
+}
+</script></body></html>
